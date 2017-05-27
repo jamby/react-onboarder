@@ -1,0 +1,53 @@
+{
+  "name": "react-onboarder",
+  "version": "0.1.0",
+  "description": "",
+  "main": "./lib/react-onboarder.js",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
+    "build:umd": "cross-env BABEL_ENV=rollup NODE_ENV=development rollup -c -o dist/react-onboarder.js",
+    "build:umd:min": "cross-env BABEL_ENV=rollup NODE_ENV=production rollup -c -o dist/react-onboarder.min.js",
+    "build": "npm run build:commonjs && npm run build:umd && npm run build:umd:min",
+    "clean": "rimraf lib dist",
+    "lint": "eslint src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jared Hamby <irjamby@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "highlight",
+    "highlighter",
+    "onboard",
+    "onboarder",
+    "onboarding"
+  ],
+  "peerDependencies": {
+    "react": "15.5.x"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "cross-env": "^5.0.0",
+    "eslint-plugin-react": "^7.0.1",
+    "prop-types": "^15.5.10",
+    "react": "^15.5.4",
+    "rimraf": "^2.6.1",
+    "rollup": "^0.41.6",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-eslint": "^3.0.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-replace": "^1.1.1",
+    "rollup-plugin-uglify": "^2.0.0",
+    "rollup-watch": "^3.2.2"
+  }
+}
