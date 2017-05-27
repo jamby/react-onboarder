@@ -28,6 +28,7 @@ export default class Onboard extends Component {
     super();
     this.updateStep = this.updateStep.bind(this);
     this.highlightChild = this.highlightChild.bind(this);
+    this.state = { running: false };
   }
 
   componentDidMount() {
@@ -49,13 +50,12 @@ export default class Onboard extends Component {
     this._node.removeAttribute("onclick"); // Don't want that onclick to do anything
     // Don't want any more event listeners for this component
     window.removeEventListener('onboard' + this.props.step ? `step-${this.props.step}` : '', this.highlightChild);
+    this.setState({ running: false });
   }
 
   highlightChild() {
     const { time } = this.props;
-    this._node.style.zIndex = "99999";
-    this._node.style.position = "relative";
-    this._node.style.borderRadius = "5px";
+    this.setState({ running: true });
 
     // If a time exists, set the timeout to get rid of it.
     const timeExists = Number.isInteger(time);
@@ -80,9 +80,13 @@ export default class Onboard extends Component {
 
   render() {
     const { children, style, className, ...rest } = this.props;
+    if (this.state.running === false) {
+      return React.cloneElement(children, { ref: (i) => { this._node = i; } });
+    }
+
     const childrenWithProps = React.cloneElement(children, {
       className: `${children.props.className} ${className}`,
-      style: { ...children.props.style, ...style },
+      style: { ...children.props.style, ...style, ...{ zIndex: "99999", position: "relative" } },
       ref: (i) => { this._node = i; }
     });
 
