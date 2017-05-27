@@ -1,10 +1,12 @@
 {
   "name": "react-onboarder",
   "version": "0.1.0",
-  "description": "",
-  "main": "./lib/react-onboarder.js",
+  "description": "A tool to onboard your users to new features.",
+  "main": "./lib/index.js",
   "files": [
-    "dist/"
+    "dist",
+    "lib",
+    "src"
   ],
   "scripts": {
     "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
@@ -15,8 +17,15 @@
     "lint": "eslint src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jamby/react-onboarder.git"
+  },
   "author": "Jared Hamby <irjamby@gmail.com>",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jamby/react-onboarder/issues"
+  },
   "keywords": [
     "react",
     "highlight",
