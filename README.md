@@ -43,6 +43,8 @@ class Main extends React.Component {
 #### Highlighter
 | Property | Type    | Default Value | Description |
 | -------- | ----    | ------------- | ----------- |
+| alpha    | String  | "0.3"         | The amount of transparency for the overlay that is shown. Min is 0, max is 1.0. (CSS RGBA values) |
+| color    | String  | "000000"      | The hex value of the color for the overlay that is shown. (CSS RGBA values) |
 | delay    | Number  | 0             | Amount of time to delay the highlight on react component load. |
 | show     | Boolean | true          | Boolean to run the child highlights. If false, will show what's inside each Highlight but won't actually run the highlights. |
 

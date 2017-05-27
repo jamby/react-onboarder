@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import hexRgb from 'hex-rgb';
 
 export default class Onboarder extends Component {
   static propTypes = {
+    alpha: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node
     ]),
+    color: PropTypes.string,
     delay: PropTypes.number,
     show: PropTypes.bool
   }
 
   static defaultProps = {
+    alpha: "0.3",
+    color: "000000",
     delay: 0,
     show: true
   }
@@ -41,9 +46,20 @@ export default class Onboarder extends Component {
   }
 
   componentWillMount() {
+    const { alpha, color, delay } = this.props;
+    const rgbColor = hexRgb(color);
     let el = document.createElement("div");
     el.id = "onboarder-overlay";
-    el.style.cssText = "background: rgba(0, 0, 0, 0.3);width: 100%;height: 100%;position: absolute;top: 0;left: 0;z-index: 99998;display: none;";
+    el.style.cssText = `
+      background: rgba(${rgbColor[0]}, ${rgbColor[1]}, ${rgbColor[2]}, ${alpha});
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 99998;
+      display: none;
+    `;
     document.body.appendChild(el);
     setTimeout(() => {
       this.setState({ stopped: false });
