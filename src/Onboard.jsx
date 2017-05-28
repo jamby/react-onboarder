@@ -84,11 +84,14 @@ export default class Onboard extends Component {
       return React.cloneElement(children, { ref: (i) => { this._node = i; } });
     }
 
-    const childrenWithProps = React.cloneElement(children, {
-      className: `${children.props.className} ${className}`,
+    const newProps = {
+      className: `${children.props.className || ''} ${className || ''}`.trim(),
       style: { ...children.props.style, ...style, ...{ zIndex: "99999", position: "relative" } },
-      ref: (i) => { this._node = i; }
-    });
+      ref: (i) => this._node = i
+    };
+    if (newProps.className.length === 0) delete newProps.className;
+
+    const childrenWithProps = React.cloneElement(children, newProps);
 
     return childrenWithProps;
   }

@@ -29,6 +29,7 @@ export default class Onboarder extends Component {
 
   constructor() {
     super();
+    this.stopOnboarder = this.stopOnboarder.bind(this);
     this.updateStep = this.updateStep.bind(this);
     this.subscribe = this.subscribe.bind(this);
     this.unsubscribe = this.unsubscribe.bind(this);
@@ -72,12 +73,15 @@ export default class Onboarder extends Component {
       if (this.state.step >= this.state.max) {
         node.style.display = "none";
         node.removeAttribute("onclick");
+        this.stopOnboarder();
       } else if (this.state.step !== this.state.max) {
         node.style.display = "block";
         this.notifySubscribers(this.subscribers[this.state.step]);
       }
     }
   }
+
+  stopOnboarder() { this.setState({ stopped: true }); }
 
   updateStep() { this.setState({ step: this.state.step + 1 }); }
 
