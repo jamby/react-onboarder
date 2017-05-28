@@ -2,7 +2,7 @@
 
 * Initial release of React Onboarder
 * Includes both Onboarder and Onboard classes
-* Each includes context for `onbSubscribe`, `onbUnsubscribe`, `onbUpdateStep`
+* Each includes context for `onbSubscribe`, `onbUpdateStep`
 * Onboarder
   * Ability to customize overlay color and opacity
   * Can add add delay to Onboarder

@@ -25,7 +25,6 @@ export default class Onboard extends Component {
 
   static contextTypes = {
     onbSubscribe: PropTypes.func,
-    onbUnsubscribe: PropTypes.func,
     onbUpdateStep: PropTypes.func
   }
 
@@ -48,7 +47,6 @@ export default class Onboard extends Component {
 
   unsubscribe() {
     // Don't want any more event listeners for this component
-    this.context.onbUnsubscribe(this);
     window.removeEventListener(eventId(this.props.step), this.highlightChild);
   }
 

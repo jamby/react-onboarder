@@ -8,7 +8,8 @@ import zenscroll from 'zenscroll';
 
 describe("ReactOnboarder", () => {
   afterEach(() => {
-    document.getElementById("onboarder-overlay").remove();
+    const overlay = document.getElementById("onboarder-overlay");
+    if (overlay) overlay.remove();
   });
 
   describe("with the onboarder-overlay div", () => {

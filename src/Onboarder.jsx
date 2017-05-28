@@ -25,7 +25,6 @@ export default class Onboarder extends Component {
 
   static childContextTypes = {
     onbSubscribe: PropTypes.func,
-    onbUnsubscribe: PropTypes.func,
     onbUpdateStep: PropTypes.func
   }
 
@@ -33,7 +32,6 @@ export default class Onboarder extends Component {
     super();
     this.onbUpdateStep = this.onbUpdateStep.bind(this);
     this.onbSubscribe = this.onbSubscribe.bind(this);
-    this.onbUnsubscribe = this.onbUnsubscribe.bind(this);
     this.stopOnboarder = this.stopOnboarder.bind(this);
 
     this.subscribers = [];
@@ -43,7 +41,6 @@ export default class Onboarder extends Component {
   getChildContext() {
     return {
       onbSubscribe: this.onbSubscribe,
-      onbUnsubscribe: this.onbUnsubscribe,
       onbUpdateStep: this.onbUpdateStep
     };
   }
@@ -96,12 +93,9 @@ export default class Onboarder extends Component {
     this.setState({ max: this.subscribers.length });
   }
 
-  onbUnsubscribe(handler) {
-    this.subscribers = this.subscribers.filter((current) => current !== handler);
-  }
-
   removeOverlay() {
-    document.getElementById("onboarder-overlay").remove();
+    const overlay = document.getElementById("onboarder-overlay");
+    if (overlay) overlay.remove();
   }
 
   stopOnboarder() { this.setState({ stopped: true }); }
