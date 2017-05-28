@@ -4,6 +4,7 @@ import sinon from 'sinon';
 
 import Onboarder from '../src/Onboarder';
 import Onboard from '../src/Onboard';
+import zenscroll from 'zenscroll';
 
 describe("ReactOnboarder", () => {
   afterEach(() => {
@@ -52,12 +53,13 @@ describe("ReactOnboarder", () => {
   describe("with multiple Onboards", () => {
     it("sends out proper events and updates state properly", () => {
       const timer = sinon.useFakeTimers();
+      sinon.spy(zenscroll, "intoView");
       const mocked = mount(
         <Onboarder delay={500}>
           <Onboard step={0} time={1000} style={{ backgroundColor: 'blue' }}>
             <div id="test1">This is a test</div>
           </Onboard>
-          <Onboard step={1} time={1500} className="onboard-test">
+          <Onboard step={1} time={1500} className="onboard-test" scroll>
             <div id="test2" className="previous-test-class">This is another test</div>
           </Onboard>
         </Onboarder>
@@ -90,6 +92,7 @@ describe("ReactOnboarder", () => {
       expect(mocked.state("stopped")).toBeFalsy(); // Onboarder should still not be stopped
       expect(mocked.state("step")).toEqual(1); // Our step has moved up 1
       expect(mocked.getNode().subscribers[1].state["running"]).toBeTruthy(); // Next subscriber is running
+      expect(zenscroll.intoView.calledOnce).toBeTruthy(); // Expect that we called the scroll function
 
       timer.tick(1500);
 

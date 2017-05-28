@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import zenscroll from 'zenscroll';
 
 export default class Onboard extends Component {
   static propTypes = {
@@ -8,12 +9,14 @@ export default class Onboard extends Component {
       PropTypes.node
     ]),
     className: PropTypes.string,
+    scroll: PropTypes.bool,
     step: PropTypes.number,
     style: PropTypes.object,
     time: PropTypes.number
   }
 
   static defaultProps = {
+    scroll: false,
     step: 0,
     time: undefined
   }
@@ -58,8 +61,9 @@ export default class Onboard extends Component {
   }
 
   highlightChild() {
-    const { time } = this.props;
+    const { scroll, time } = this.props;
     this.setState({ running: true });
+    if (scroll) zenscroll.intoView(this._node); // Only scroll to item if scroll prop is added
 
     // If a time exists, set the timeout to get rid of it.
     const timeExists = Number.isInteger(time);

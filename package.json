@@ -49,6 +49,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "cross-env": "^5.0.0",
     "enzyme": "^2.8.2",
+    "eslint": "^3.19.0",
     "eslint-plugin-react": "^7.0.1",
     "jest": "^20.0.4",
     "prop-types": "^15.5.10",
@@ -67,7 +68,8 @@
     "sinon": "^2.3.2"
   },
   "dependencies": {
-    "hex-rgb": "^1.0.0"
+    "hex-rgb": "^1.0.0",
+    "zenscroll": "^4.0.0"
   },
   "jest": {
     "testMatch": [
