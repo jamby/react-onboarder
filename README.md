@@ -1,4 +1,7 @@
-# react-onboarder
+# React Onboarder
+
+[![Circle CI](https://circleci.com/gh/jamby/react-onboarder.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/jamby/react-onboarder)
+[![Code Climate](https://codeclimate.com/github/jamby/react-onboarder.png)](https://codeclimate.com/github/jamby/react-onboarder)
 
 ### Installation
 
@@ -40,7 +43,7 @@ class Main extends React.Component {
 }
 ```
 
-#### Highlighter
+#### Onboarder Props
 | Property | Type    | Default Value | Description |
 | -------- | ----    | ------------- | ----------- |
 | alpha    | String  | "0.3"         | The amount of transparency for the overlay that is shown. Min is 0, max is 1.0. (CSS RGBA values) |
@@ -48,7 +51,7 @@ class Main extends React.Component {
 | delay    | Number  | 0             | Amount of time to delay the highlight on react component load. |
 | show     | Boolean | true          | Boolean to run the child highlights. If false, will show what's inside each Highlight but won't actually run the highlights. |
 
-#### Highlight
+#### Onboard Props
 | Property  | Type   | Default Value | Description |
 | --------  | ----   | ------------- | ----------- |
 | step      | Number | 0             | The queue for when a the highlight goes off. |
