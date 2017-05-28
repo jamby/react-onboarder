@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import hexRgb from 'hex-rgb';
 
+import { eventId } from './helpers';
+
 export default class Onboarder extends Component {
   static propTypes = {
     alpha: PropTypes.string,
@@ -97,7 +99,7 @@ export default class Onboarder extends Component {
   }
 
   notifySubscribers(subscriber) {
-    const evt = new Event('onboard' + this.state.step ? `step-${this.state.step}` : '');
+    const evt = new Event(eventId(this.state.step));
     window.dispatchEvent(evt);
   }
 

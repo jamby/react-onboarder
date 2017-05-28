@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import zenscroll from 'zenscroll';
 
+import { eventId } from './helpers';
+
 export default class Onboard extends Component {
   static propTypes = {
     children: PropTypes.oneOfType([
@@ -36,15 +38,11 @@ export default class Onboard extends Component {
 
   componentDidMount() {
     this.context.subscribe(this);
-    window.addEventListener(this.eventId(this.props.step), this.highlightChild);
+    window.addEventListener(eventId(this.props.step), this.highlightChild);
   }
 
   componentWillUnmount() {
-    window.removeEventListener(this.eventId(this.props.step), this.highlightChild);
-  }
-
-  eventId(step) {
-    return 'onboard' + step ? `step-${step}` : '';
+    window.removeEventListener(eventId(this.props.step), this.highlightChild);
   }
 
   updateStep() {
@@ -56,7 +54,7 @@ export default class Onboard extends Component {
     }
     this._node.removeAttribute("onclick"); // Don't want that onclick to do anything
     // Don't want any more event listeners for this component
-    window.removeEventListener(this.eventId(this.props.step), this.highlightChild);
+    window.removeEventListener(eventId(this.props.step), this.highlightChild);
     this.setState({ running: false });
   }
 
