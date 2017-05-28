@@ -24,37 +24,43 @@ export default class Onboard extends Component {
   }
 
   static contextTypes = {
-    subscribe: PropTypes.func,
-    unsubscribe: PropTypes.func,
-    updateStep: PropTypes.func
+    onbSubscribe: PropTypes.func,
+    onbUnsubscribe: PropTypes.func,
+    onbUpdateStep: PropTypes.func
   }
 
   constructor() {
     super();
+    this.unsubscribe = this.unsubscribe.bind(this);
     this.updateStep = this.updateStep.bind(this);
     this.highlightChild = this.highlightChild.bind(this);
     this.state = { running: false };
   }
 
   componentDidMount() {
-    this.context.subscribe(this);
+    this.context.onbSubscribe(this);
     window.addEventListener(eventId(this.props.step), this.highlightChild);
   }
 
   componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  unsubscribe() {
+    // Don't want any more event listeners for this component
+    this.context.onbUnsubscribe(this);
     window.removeEventListener(eventId(this.props.step), this.highlightChild);
   }
 
   updateStep() {
     const { style } = this.props;
-    this.context.updateStep();
+    this.context.onbUpdateStep();
     this._node.style = null;
     if (style) { // If styles exist, keep track of user defined style
       Object.keys(style).map((styleKey) => this._node.style[`${styleKey}`] = style[styleKey]);
     }
     this._node.removeAttribute("onclick"); // Don't want that onclick to do anything
-    // Don't want any more event listeners for this component
-    window.removeEventListener(eventId(this.props.step), this.highlightChild);
+    this.unsubscribe();
     this.setState({ running: false });
   }
 

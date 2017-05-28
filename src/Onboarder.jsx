@@ -24,17 +24,17 @@ export default class Onboarder extends Component {
   }
 
   static childContextTypes = {
-    subscribe: PropTypes.func,
-    unsubscribe: PropTypes.func,
-    updateStep: PropTypes.func
+    onbSubscribe: PropTypes.func,
+    onbUnsubscribe: PropTypes.func,
+    onbUpdateStep: PropTypes.func
   }
 
   constructor() {
     super();
+    this.onbUpdateStep = this.onbUpdateStep.bind(this);
+    this.onbSubscribe = this.onbSubscribe.bind(this);
+    this.onbUnsubscribe = this.onbUnsubscribe.bind(this);
     this.stopOnboarder = this.stopOnboarder.bind(this);
-    this.updateStep = this.updateStep.bind(this);
-    this.subscribe = this.subscribe.bind(this);
-    this.unsubscribe = this.unsubscribe.bind(this);
 
     this.subscribers = [];
     this.state = { step: 0, max: 0, stopped: true };
@@ -42,9 +42,9 @@ export default class Onboarder extends Component {
 
   getChildContext() {
     return {
-      subscribe: this.subscribe,
-      unsubscribe: this.unsubscribe,
-      updateStep: this.updateStep
+      onbSubscribe: this.onbSubscribe,
+      onbUnsubscribe: this.onbUnsubscribe,
+      onbUpdateStep: this.onbUpdateStep
     };
   }
 
@@ -75,9 +75,9 @@ export default class Onboarder extends Component {
     const node = document.getElementById('onboarder-overlay');
     if (this.props.show && this.state.stopped === false) {
       if (this.state.step >= this.state.max) {
-        node.style.display = "none";
         node.removeAttribute("onclick");
         this.stopOnboarder();
+        this.removeOverlay();
       } else if (this.state.step !== this.state.max) {
         node.style.display = "block";
         this.notifySubscribers(this.subscribers[this.state.step]);
@@ -86,21 +86,25 @@ export default class Onboarder extends Component {
   }
 
   componentWillUnmount() {
-    document.getElementById("onboarder-overlay").remove();
+    this.removeOverlay();
   }
 
-  stopOnboarder() { this.setState({ stopped: true }); }
+  onbUpdateStep() { this.setState({ step: this.state.step + 1 }); }
 
-  updateStep() { this.setState({ step: this.state.step + 1 }); }
-
-  subscribe(handler) {
+  onbSubscribe(handler) {
     this.subscribers = this.subscribers.concat(handler);
     this.setState({ max: this.subscribers.length });
   }
 
-  unsubscribe(handler) {
+  onbUnsubscribe(handler) {
     this.subscribers = this.subscribers.filter((current) => current !== handler);
   }
+
+  removeOverlay() {
+    document.getElementById("onboarder-overlay").remove();
+  }
+
+  stopOnboarder() { this.setState({ stopped: true }); }
 
   notifySubscribers(subscriber) {
     const evt = new Event(eventId(this.state.step));
