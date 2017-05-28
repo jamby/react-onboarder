@@ -2,6 +2,7 @@
 
 [![Circle CI](https://circleci.com/gh/jamby/react-onboarder.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/jamby/react-onboarder)
 [![Code Climate](https://codeclimate.com/github/jamby/react-onboarder.png)](https://codeclimate.com/github/jamby/react-onboarder)
+[![npm version](https://img.shields.io/npm/v/react-onboarder.svg?style=flat-square)](https://www.npmjs.com/package/react-onboarder)
 
 Have you ever wanted to onboard your users to new features?
 
