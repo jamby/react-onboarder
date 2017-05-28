@@ -13,6 +13,7 @@
     "build:umd": "cross-env BABEL_ENV=rollup NODE_ENV=development rollup -c -o dist/react-onboarder.js",
     "build:umd:min": "cross-env BABEL_ENV=rollup NODE_ENV=production rollup -c -o dist/react-onboarder.min.js",
     "build": "npm run build:commonjs && npm run build:umd && npm run build:umd:min",
+    "prepublish": "npm run clean && npm run build",
     "clean": "rimraf lib dist",
     "lint": "eslint src",
     "test": "jest",

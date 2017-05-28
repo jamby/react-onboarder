@@ -85,6 +85,10 @@ export default class Onboarder extends Component {
     }
   }
 
+  componentWillUnmount() {
+    document.getElementById("onboarder-overlay").remove();
+  }
+
   stopOnboarder() { this.setState({ stopped: true }); }
 
   updateStep() { this.setState({ step: this.state.step + 1 }); }
