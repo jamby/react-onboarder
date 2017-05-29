@@ -128,6 +128,11 @@ To use this project locally, just `npm link` while inside this folder, and then 
 
 Be sure to write tests and make sure the linter doesn't complain.
 
+## Thanks
+
+* Bernabas Wolde ([@bernabas](https://github.com/bernabas)) - For the initial concept
+* Matt Widmann ([@mgwidmann](https://github.com/mgwidmann)) - For various help with the project
+
 ## License
 
 [MIT](https://github.com/jamby/react-onboarder/blob/master/LICENSE.md)
