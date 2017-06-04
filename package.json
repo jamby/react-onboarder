@@ -37,7 +37,8 @@
     "onboarding"
   ],
   "peerDependencies": {
-    "react": "15.5.x"
+    "react": "15.5.x",
+    "react-dom": "15.5.x"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

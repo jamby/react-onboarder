@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import hexRgb from 'hex-rgb';
 
-import { eventId } from './helpers';
+import Overlay from './Overlay';
+import { prefix, eventId, overlayId } from './helpers';
 
 export default class Onboarder extends Component {
   static propTypes = {
@@ -46,38 +48,31 @@ export default class Onboarder extends Component {
   }
 
   componentWillMount() {
-    const { alpha, color, delay } = this.props;
-    const rgbColor = hexRgb(color);
-    let el = document.createElement("div");
-    el.id = "onboarder-overlay";
-    el.style.cssText = `
-      background: rgba(${rgbColor[0]}, ${rgbColor[1]}, ${rgbColor[2]}, ${alpha});
-      width: 100%;
-      height: 100%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 99998;
-      display: none;
-    `;
-    document.body.appendChild(el);
+    if (!document.getElementById(prefix())) { // Check to make sure the prefix exists
+      const overlay = document.createElement("div"); // If it doesn't then let's make the div that the Overlay gets mounted onto
+      overlay.id = prefix();
+      document.body.appendChild(overlay);
+    }
+
     setTimeout(() => {
       this.setState({ stopped: false });
     }, this.props.delay);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const node = document.getElementById('onboarder-overlay');
-    if (this.props.show && this.state.stopped === false) {
-      if (this.state.step >= this.state.max) {
-        node.removeAttribute("onclick");
+    const { show } = this.props;
+    const { stopped, step, max } = this.state;
+    if (show && stopped === false) {
+      if (step >= max) {
         this.stopOnboarder();
         this.removeOverlay();
-      } else if (this.state.step !== this.state.max) {
-        node.style.display = "block";
-        this.notifySubscribers(this.subscribers[this.state.step]);
+      } else if (step !== max) {
+        if (step === 0) {
+          const { alpha, color, delay } = this.props;
+          const rgbColor = hexRgb(color);
+          ReactDOM.render(<Overlay alpha={alpha} red={rgbColor[0]} green={rgbColor[1]} blue={rgbColor[2]} />, document.getElementById(prefix()));
+        }
+        this.notifySubscribers(this.subscribers[step]);
       }
     }
   }
@@ -94,8 +89,8 @@ export default class Onboarder extends Component {
   }
 
   removeOverlay() {
-    const overlay = document.getElementById("onboarder-overlay");
-    if (overlay) overlay.remove();
+    const overlay = document.getElementById(prefix());
+    if (overlay) ReactDOM.unmountComponentAtNode(overlay);;
   }
 
   stopOnboarder() { this.setState({ stopped: true }); }
@@ -106,6 +101,8 @@ export default class Onboarder extends Component {
   }
 
   render() {
+    const { alpha, color, delay } = this.props;
+    const rgbColor = hexRgb(color);
     return (
       <div ref={(i) => this._node = i}>
         {this.props.children}

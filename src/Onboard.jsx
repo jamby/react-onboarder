@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import zenscroll from 'zenscroll';
 
-import { eventId } from './helpers';
+import { eventId, overlayId } from './helpers';
 
 export default class Onboard extends Component {
   static propTypes = {
@@ -77,7 +77,7 @@ export default class Onboard extends Component {
     }
 
     // Set some onclicks to clear the timeout and update the step
-    document.getElementById("onboarder-overlay").onclick = () => {
+    document.getElementById(overlayId()).onclick = () => {
       clearTimeout(updateStepTimeout);
       this.updateStep();
     };

@@ -6,39 +6,48 @@ import Onboarder from '../src/Onboarder';
 import Onboard from '../src/Onboard';
 import zenscroll from 'zenscroll';
 
+import { overlayId } from '../src/helpers';
+
+let timer;
+
+const setupSimpleOnboarder = (props) => {
+  return mount(
+    <Onboarder {...props}>
+      <Onboard step={0}>
+        <div id="test">This is a test</div>
+      </Onboard>
+    </Onboarder>
+  );
+};
+
 describe("ReactOnboarder", () => {
-  afterEach(() => {
-    const overlay = document.getElementById("onboarder-overlay");
-    if (overlay) overlay.remove();
+  beforeEach(() => {
+    timer = sinon.useFakeTimers();
   });
 
   describe("with the onboarder-overlay div", () => {
     it("renders the overlay with default values", () => {
-      const mocked = shallow(<Onboarder />);
-      const overlay = document.getElementById("onboarder-overlay");
-      expect(overlay.style.getPropertyValue("display")).toBe("none");
+      const mocked = setupSimpleOnboarder();
+      timer.tick(1);
+      const overlay = document.getElementById(overlayId());
+      expect(overlay.style.getPropertyValue("display")).toBe("block");
       expect(overlay.style.getPropertyValue("background")).toBe("rgba(0, 0, 0, 0.3)");
       expect(overlay).toBeDefined();
     });
 
     it("renders the overlay with custom values of color and alpha", () => {
-      const mocked = shallow(<Onboarder color="00ff00" alpha="0.6" />);
-      const overlay = document.getElementById("onboarder-overlay");
-      expect(overlay.style.getPropertyValue("display")).toBe("none");
+      const mocked = setupSimpleOnboarder({ color: "00ff00", alpha: "0.6" });
+      timer.tick(1);
+      const overlay = document.getElementById(overlayId());
+      expect(overlay.style.getPropertyValue("display")).toBe("block");
       expect(overlay.style.getPropertyValue("background")).toBe("rgba(0, 255, 0, 0.6)");
       expect(overlay).toBeDefined();
     });
   });
 
   it("renders the components with one Onboard", () => {
-    const timer = sinon.useFakeTimers();
-    const mocked = mount(
-      <Onboarder>
-        <Onboard step={0}>
-          <div id="test">This is a test</div>
-        </Onboard>
-      </Onboarder>
-    );
+    // const timer = sinon.useFakeTimers();
+    const mocked = setupSimpleOnboarder();
     expect(mocked).toBeDefined();
     expect(mocked.getNode().subscribers.length).toEqual(1);
     expect(mocked.find("#test").props().style).toBeUndefined();
@@ -53,7 +62,6 @@ describe("ReactOnboarder", () => {
 
   describe("with multiple Onboards", () => {
     it("sends out proper events and updates state properly", () => {
-      const timer = sinon.useFakeTimers();
       sinon.spy(zenscroll, "intoView");
       const mocked = mount(
         <Onboarder delay={500}>
